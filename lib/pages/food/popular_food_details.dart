@@ -144,7 +144,8 @@ class PopularFoodDetails extends StatelessWidget {
                         },
                         child: Icon(Icons.remove, color: AppColors.signColor)),
                     SizedBox(width: Dimentions.width10 / 2),
-                    BigText(text: popularProductController.inCartItems.toString()),
+                    BigText(
+                        text: popularProductController.inCartItems.toString()),
                     SizedBox(width: Dimentions.width10 / 2),
                     InkWell(
                         onTap: () {

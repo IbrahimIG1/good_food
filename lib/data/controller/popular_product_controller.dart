@@ -30,21 +30,22 @@ class PopularProductController extends GetxController {
   int get inCartItems => _inCartItems + _quantity;
   void setQuantity(bool isIncrement) {
     if (isIncrement) {
-      _quantity = cheakQuantity(++_quantity);
+      _quantity = cheakQuantity(_quantity+1);
     } else {
-      _quantity = cheakQuantity(--_quantity);
+      _quantity = cheakQuantity(_quantity-1);
     }
     update();
   }
 
   int cheakQuantity(int quantity) {
-    if (inCartItems > 20) {
+    if (_inCartItems+quantity > 20) {
       Get.snackbar('Item Count', ' 20 Is beggest number',
           backgroundColor: AppColors.mainColor, colorText: Colors.white);
       return 20;
-    } else if (inCartItems < 0) {
+    } else if (_inCartItems+quantity < 0) {
       Get.snackbar('Item Count', 'Zero Is least number',
           backgroundColor: AppColors.mainColor, colorText: Colors.white);
+          _inCartItems = 0;
       return 0;
     } else {
       return quantity;
@@ -66,17 +67,14 @@ class PopularProductController extends GetxController {
 
   late CartController _cardController;
   void addItem(ProductModel productModel) {
-    if (_quantity > 0) {
+    
       _cardController.addItems(
           productModel: productModel,
           quantity:_quantity); //  Pass Product Model To Cart Controller To Add Items In intems map
       _quantity = 0;
       _inCartItems = _cardController.getQuantity(productModel);
       print('added in items ');
-    } else {
-      Get.snackbar('Item Count', 'You should at least add an item in the card',
-          backgroundColor: AppColors.mainColor, colorText: Colors.white);
-    }
+    
   }
 
   // int get allItems {

@@ -113,10 +113,12 @@
 //     return cardRepo.getCartList();
 //   }
 // }
+import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/card_model.dart';
 import 'package:food_delivery_app/data/reposetory/card_repo.dart';
 import 'package:get/get.dart';
 
+import '../../utils/colors.dart';
 import '../model/product_model.dart';
 
 class CartController extends GetxController {
@@ -144,17 +146,23 @@ class CartController extends GetxController {
       });
     } else {
       //  putIfAbsent Add Id (Item) Once
-      _items.putIfAbsent(productModel.id!, () {
-        return CartModel(
-          id: productModel.id,
-          isExist: true,
-          name: productModel.name,
-          img: productModel.img,
-          price: productModel.price,
-          quantity: quantity,
-          dateTime: DateTime.now().toString(),
-        );
-      });
+      if (quantity > 0) {
+        _items.putIfAbsent(productModel.id!, () {
+          return CartModel(
+            id: productModel.id,
+            isExist: true,
+            name: productModel.name,
+            img: productModel.img,
+            price: productModel.price,
+            quantity: quantity,
+            dateTime: DateTime.now().toString(),
+          );
+        });
+      } else {
+        Get.snackbar(
+            'Item Count', 'You should at least add an item in the card',
+            backgroundColor: AppColors.mainColor, colorText: Colors.white);
+      }
     }
   }
 
@@ -167,7 +175,7 @@ class CartController extends GetxController {
     }
   }
 
-  // take the last product quantity if product in cart to show in UI 
+  // take the last product quantity if product in cart to show in UI
   int getQuantity(ProductModel product) {
     int quantity = 0;
     if (_items.containsKey(product.id)) {

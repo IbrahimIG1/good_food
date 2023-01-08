@@ -16,28 +16,29 @@ final PopularProductController popularProduct;
     return Stack(
       alignment: Alignment.topRight,
       children: [
-        // AppIcon(
-        //     icon: Icons.shopping_cart_outlined,
-        //     iconSize: Dimentions.iconSize16),
-        // Get.find<PopularProductController>().allItems > 0
-        //     ? Positioned(
-        //         top: 0,
-        //         right: 0,
-        //         child: Container(
-        //           width: Dimentions.width20,
-        //           height: Dimentions.height20,
-        //           decoration: BoxDecoration(
-        //             shape: BoxShape.circle,
-        //             color: AppColors.mainColor,
-        //           ),
-        //           child: Center(
-        //               child: Text(
-        //             popularProduct.allItems.toString(),
-        //             style: TextStyle(color: Colors.white,fontSize: Dimentions.font15),
-        //           )),
-        //         ),
-        //       )
-        //     : Container(),
+        AppIcon(
+            icon: Icons.shopping_cart_outlined,
+            iconSize: Dimentions.iconSize16),
+        Get.find<PopularProductController>().inCartItems > 0
+            ? Positioned(
+                top: 0,
+                right: 0,
+                child: Container(
+                  width: Dimentions.width20,
+                  height: Dimentions.height20,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.mainColor,
+                  ),
+                  child: Center(
+                      child: Text(
+                    popularProduct.inCartItems.toString(),
+                    style: TextStyle(color: Colors.white,fontSize: Dimentions.font15),
+                  )),
+                ),
+              )
+            : 
+            Container(),
       ],
     );
   }
