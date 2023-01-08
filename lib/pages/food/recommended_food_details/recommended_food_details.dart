@@ -130,7 +130,7 @@ class RecommendedFoodDetails extends StatelessWidget {
                         buttonColor: Colors.white),
                     InkWell(
                       onTap: () {
-                        if (popularProduct.quantity > 0) {
+                        if (popularProduct.inCartItems > 0) {
                           popularProduct.addItem(product);
                           Get.appUpdate();
                         } else {
