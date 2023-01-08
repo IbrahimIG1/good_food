@@ -7,12 +7,16 @@ import 'package:get/get.dart';
 
 class PopularProductController extends GetxController {
   final PopularProductRepo popularProductRepo;
-
   PopularProductController({required this.popularProductRepo});
-  List<dynamic> _popularProductList = [];
+
+  List<dynamic> _popularProductList = []; //  recepion save data from api
+
   List<dynamic> get popularProductList => _popularProductList;
-  bool _isLoading = false;
+
+  bool _isLoading = false;  // circle progress indicator
   bool get isLoading => _isLoading;
+
+  //  get data from api 
   Future<void> getPopularProductList() async {
     Response response = await popularProductRepo.getPopularProductList();
     if (response.statusCode == 200) {
@@ -28,6 +32,8 @@ class PopularProductController extends GetxController {
   int get quantity => _quantity;
   int _inCartItems = 0;
   int get inCartItems => _inCartItems + _quantity;
+
+  //  set count item
   void setQuantity(bool isIncrement) {
     if (isIncrement) {
       _quantity = cheakQuantity(_quantity+1);
@@ -37,6 +43,7 @@ class PopularProductController extends GetxController {
     update();
   }
 
+  // cheak Quantity to no zero and no negative number in item count
   int cheakQuantity(int quantity) {
     if (_inCartItems+quantity > 20) {
       Get.snackbar('Item Count', ' 20 Is beggest number',
@@ -52,6 +59,7 @@ class PopularProductController extends GetxController {
     }
   }
 
+  // reset all variable to Initial cases
   void initProduct(CartController cardController, ProductModel product) {
     _quantity = 0;
     _inCartItems = 0;
@@ -65,7 +73,9 @@ class PopularProductController extends GetxController {
     }
   }
 
-  late CartController _cardController;
+  late CartController _cardController;  // Get instance to can connect with cart Controller method
+
+  //  add Items in cart Model to show item Numbers on cart Icon like notification
   void addItem(ProductModel productModel) {
     
       _cardController.addItems(
@@ -77,7 +87,8 @@ class PopularProductController extends GetxController {
     
   }
 
-  // int get allItems {
-  //   return _cardController.allItems();
-  // }
+  // function to get all items to show on cart Icon like notification
+  int get allItems {
+    return _cardController.allItems;
+  }
 }

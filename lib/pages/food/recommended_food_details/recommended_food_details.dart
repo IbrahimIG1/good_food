@@ -100,7 +100,7 @@ class RecommendedFoodDetails extends StatelessWidget {
                       ),
                     )),
                 BigText(
-                    text: '\$${product.price!} X ${popularProduct.quantity}'),
+                    text: '\$${product.price!} X ${popularProduct.inCartItems}'),
                 Container(
                     decoration: BoxDecoration(
                         shape: BoxShape.circle, color: AppColors.mainColor),
@@ -132,6 +132,7 @@ class RecommendedFoodDetails extends StatelessWidget {
                       onTap: () {
                         if (popularProduct.quantity > 0) {
                           popularProduct.addItem(product);
+                          Get.appUpdate();
                         } else {
                           Get.snackbar('The quantity is very small',
                               'The minimum order quantity is one',
@@ -142,7 +143,7 @@ class RecommendedFoodDetails extends StatelessWidget {
                       child: NavButton(
                           widget: BigText(
                             text:
-                                '\$ ${product.price! * popularProduct.quantity} | Add to card',
+                                '\$ ${product.price! * popularProduct.inCartItems} | Add to card',
                             color: Colors.white,
                           ),
                           buttonColor: AppColors.mainColor),

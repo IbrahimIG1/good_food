@@ -19,7 +19,7 @@ final PopularProductController popularProduct;
         AppIcon(
             icon: Icons.shopping_cart_outlined,
             iconSize: Dimentions.iconSize16),
-        Get.find<PopularProductController>().inCartItems > 0
+        Get.find<PopularProductController>().allItems > 0
             ? Positioned(
                 top: 0,
                 right: 0,
@@ -32,13 +32,12 @@ final PopularProductController popularProduct;
                   ),
                   child: Center(
                       child: Text(
-                    popularProduct.inCartItems.toString(),
+                    popularProduct.allItems.toString(),
                     style: TextStyle(color: Colors.white,fontSize: Dimentions.font15),
                   )),
                 ),
               )
-            : 
-            Container(),
+            : Container(),
       ],
     );
   }

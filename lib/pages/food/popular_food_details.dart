@@ -158,6 +158,10 @@ class PopularFoodDetails extends StatelessWidget {
               InkWell(
                 onTap: () async {
                   popularProductController.addItem(product);
+                  popularProductController.allItems;
+                  Get.appUpdate();  //  update state (update UI)
+
+                  
                   // CartDataService(await SharedPreferences.getInstance())
                   // .addCartData(cardController.cartList);
                   // cardController.cardRepo
