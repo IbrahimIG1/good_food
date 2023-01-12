@@ -183,9 +183,7 @@ class CartPageIcon extends StatelessWidget {
                                                           productModel:
                                                               cartList.product!,
                                                           quantity: -1);
-                                                      print('munis');
-                                                      print(cartList.quantity
-                                                          .toString());
+                                                     
                                                       Get.appUpdate(); // pass -1 to minus -1 to quantity
                                                     },
                                                     plus: () {
@@ -193,10 +191,8 @@ class CartPageIcon extends StatelessWidget {
                                                           productModel:
                                                               cartList.product!,
                                                           quantity: 1);
-                                                      print(
-                                                          'added'); // pass 1 to add 1 to quantity
-                                                      print(cartList.quantity
-                                                          .toString());
+                                                       // pass 1 to add 1 to quantity
+                                                      
                                                       Get.appUpdate();
                                                     },
                                                   ),
