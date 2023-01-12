@@ -84,7 +84,7 @@ class PopularProductController extends GetxController {
       _quantity = 0;
       _inCartItems = _cardController.getQuantity(productModel);
       print('added in items ');
-    
+    update();
   }
 
   // function to get all items to show on cart Icon like notification

@@ -3,8 +3,10 @@ import 'package:food_delivery_app/data/controller/card_controller.dart';
 import 'package:food_delivery_app/data/controller/popular_product_controller.dart';
 import 'package:food_delivery_app/data/controller/recommended_product_controller.dart';
 import 'package:food_delivery_app/data/model/product_model.dart';
+import 'package:food_delivery_app/pages/cart_icon_page.dart';
 import 'package:food_delivery_app/pages/food/recommended_food_details/bottom_preferred_size.dart';
 import 'package:food_delivery_app/pages/food/recommended_food_details/flexible_image_space.dart';
+import 'package:food_delivery_app/shared_packages/navigators.dart';
 import 'package:food_delivery_app/utils/app_constants.dart';
 import 'package:food_delivery_app/utils/colors.dart';
 import 'package:food_delivery_app/utils/dimentions.dart';
@@ -45,8 +47,14 @@ class RecommendedFoodDetails extends StatelessWidget {
                     child: AppIcon(
                         icon: Icons.clear, iconSize: Dimentions.iconSize16)),
                 GetBuilder<PopularProductController>(builder: (popularProduct) {
-                  return CartStack(
-                    popularProduct: popularProduct,
+                  return InkWell(
+                    onTap: ()
+                    {
+                      navigateTo(context, CartPageIcon());
+                    },
+                    child: CartStack(
+                      popularProduct: popularProduct,
+                    ),
                   );
                 }),
               ],

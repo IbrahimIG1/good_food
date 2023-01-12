@@ -131,39 +131,46 @@ class CartController extends GetxController {
   // take data from product model not from UI
   void addItems({required ProductModel productModel, required int quantity}) {
     //  This condition to can add quantity for same item
+    var totalQuantity = 0;
     if (_items.containsKey(productModel.id)) {
       _items.update(productModel.id!, (value) {
+        totalQuantity = value.quantity! + quantity;
         return CartModel(
-          id: value.id,
-          isExist: true,
-          name: value.name,
-          img: value.img,
-          price: value.price,
-          quantity: value.quantity! +
-              quantity, // Add new quantity to old one which added in (putIfAbsent)
-          dateTime: DateTime.now().toString(),
-        );
+            id: value.id,
+            isExist: true,
+            name: value.name,
+            img: value.img,
+            price: value.price,
+            quantity: value.quantity! +
+                quantity, // Add new quantity to old one which added in (putIfAbsent)
+            dateTime: DateTime.now().toString(),
+            product: productModel);
+            
       });
+      if (totalQuantity <= 0) {
+        _items.remove(productModel.id);
+      }
     } else {
       //  putIfAbsent Add Id (Item) Once
       if (quantity > 0) {
         _items.putIfAbsent(productModel.id!, () {
           return CartModel(
-            id: productModel.id,
-            isExist: true,
-            name: productModel.name,
-            img: productModel.img,
-            price: productModel.price,
-            quantity: quantity,
-            dateTime: DateTime.now().toString(),
-          );
+              id: productModel.id,
+              isExist: true,
+              name: productModel.name,
+              img: productModel.img,
+              price: productModel.price,
+              quantity: quantity,
+              dateTime: DateTime.now().toString(),
+              product: productModel);
         });
       } else {
         Get.snackbar(
             'Item Count', 'You should at least add an item in the card',
             backgroundColor: AppColors.mainColor, colorText: Colors.white);
       }
-    }
+    } 
+    update();
   }
 
   // Chek Items in cart or not
@@ -189,12 +196,14 @@ class CartController extends GetxController {
     return quantity;
   }
 
-  int get allItems
-  {
+  List<CartModel> cartList = [];
+  int get allItems {
     var totalQuantity = 0;
+    cartList = [];
     _items.forEach((key, value) {
+      cartList.add(value);
       totalQuantity += value.quantity!;
-     });
+    });
     return totalQuantity;
-  } 
+  }
 }
