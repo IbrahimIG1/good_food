@@ -197,6 +197,7 @@ class CartController extends GetxController {
   }
 
   List<CartModel> cartList = [];
+  //  get all items count
   int get allItems {
     var totalQuantity = 0;
     cartList = [];
@@ -205,5 +206,14 @@ class CartController extends GetxController {
       totalQuantity += value.quantity!;
     });
     return totalQuantity;
+  }
+  int get allAmount
+  {
+    var total=0;
+    _items.forEach((key, value) 
+    {
+      total += value.quantity! * value.price!;
+     });
+    return total;
   }
 }

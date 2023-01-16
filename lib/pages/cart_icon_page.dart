@@ -1,7 +1,5 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/data/controller/popular_product_controller.dart';
-
 import 'package:food_delivery_app/pages/home/main_food_page.dart';
 import 'package:food_delivery_app/shared_packages/navigators.dart';
 import 'package:food_delivery_app/utils/app_constants.dart';
@@ -131,51 +129,7 @@ class CartPageIcon extends StatelessWidget {
                                                   BigText(
                                                       text:
                                                           '\$ ${cartList.price! * cartList.quantity!}'),
-                                                  // Row(
-                                                  //   mainAxisAlignment:
-                                                  //       MainAxisAlignment
-                                                  //           .spaceAround,
-                                                  //   children: [
-                                                  //     InkWell(
-                                                  //         onTap: ()
-                                                  //         {
-                                                  //           cardController.addItems(
-                                                  //         productModel:
-                                                  //             cartList.product!,
-                                                  //         quantity:
-                                                  //             -1);
-                                                  //         },
-                                                  //         child: Icon(
-                                                  //             Icons.remove,
-                                                  //             color: AppColors
-                                                  //                 .signColor)),
-                                                  //     SizedBox(
-                                                  //         width: Dimentions
-                                                  //                 .width10 /
-                                                  //             2),
-                                                  //     BigText(
-                                                  //       text: cartList.quantity
-                                                  //           .toString(),
-                                                  //     ),
-                                                  //     SizedBox(
-                                                  //         width: Dimentions
-                                                  //                 .width10 /
-                                                  //             2),
-                                                  //     InkWell(
-                                                  //         onTap: ()
-                                                  //         {
-                                                  //           cardController.addItems(
-                                                  //         productModel:
-                                                  //             cartList.product!,
-                                                  //         quantity:
-                                                  //             1);
-                                                  //         },
-                                                  //         child: Icon(Icons.add,
-                                                  //             color: AppColors
-                                                  //                 .signColor)),
-                                                  //   ],
-                                                  // )
-                                                  plusMinusButton(
+                                                plusMinusButton(
                                                     quantity: cartList.quantity
                                                         .toString(),
                                                     minus: () {
@@ -225,7 +179,7 @@ class CartPageIcon extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(Dimentions.radius20)),
-                  child: BigText(text: "\$ ${cardControllerNav.allItems}"),
+                  child: BigText(text: "\$ ${cardControllerNav.allAmount}"),
                 ),
                 InkWell(
                   onTap: () {
