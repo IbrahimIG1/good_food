@@ -46,6 +46,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          // App Bar
           Container(
             margin: EdgeInsets.only(
                 top: Dimentions.height45, bottom: Dimentions.height10),
@@ -134,7 +135,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                     ? 1
                     : popularProduct.popularProductList.length);
           }),
-          //  popular text
+          //  Recommended text
           Container(
             margin: EdgeInsets.only(left: Dimentions.width20),
             child: Row(

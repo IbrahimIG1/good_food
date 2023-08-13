@@ -3,7 +3,7 @@ class Products {
   int? typeId;
   int? offset;
   late List<ProductModel> _products;
-  List<ProductModel> get products=> _products;
+  List<ProductModel> get products => _products;
 
   Products.fromJson(Map<String, dynamic> json) {
     totalSize = json['total_size'];
@@ -41,5 +41,17 @@ class ProductModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     typeId = json['type_id'];
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'img': img,
+      'price': price,
+      'location': location,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'typeId': typeId,
+    };
   }
 }

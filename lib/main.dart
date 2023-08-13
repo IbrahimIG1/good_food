@@ -18,9 +18,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-    Get.find<PopularProductController>().getPopularProductList(); // to call controller after splash screen
-    Get.find<RecommendedProductController>().getRecommendedProductList(); // to call controller after splash screen
+    Get.find<CartController>().getCartData(); // call to get storage data
+    Get.find<PopularProductController>()
+        .getPopularProductList(); // to call controller after splash screen
+    Get.find<RecommendedProductController>()
+        .getRecommendedProductList(); // to call controller after splash screen
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,

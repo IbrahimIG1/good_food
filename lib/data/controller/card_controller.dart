@@ -8,7 +8,7 @@
 // class CardController extends GetxController {
 //   CardController({required this.cardRepo});
 //   final CardRepo cardRepo;
-//   Map<int, CartModel> _items = {};
+//   Map<int, List<CartModel>> _items = {};
 //   Map<int, CartModel> get items => _items;
 //   void addItems(ProductModel product, quantity) {
 //     if (_items.containsKey(product.id!)) {
@@ -128,6 +128,8 @@ class CartController extends GetxController {
   Map<int, CartModel> _items = {};
   Map<int, CartModel> get items => _items;
 
+  List<CartModel> storageItems = []; // only for storage and sharedprefrences
+
   // take data from product model not from UI
   void addItems({required ProductModel productModel, required int quantity}) {
     //  This condition to can add quantity for same item
@@ -145,7 +147,6 @@ class CartController extends GetxController {
                 quantity, // Add new quantity to old one which added in (putIfAbsent)
             dateTime: DateTime.now().toString(),
             product: productModel);
-            
       });
       if (totalQuantity <= 0) {
         _items.remove(productModel.id);
@@ -169,7 +170,8 @@ class CartController extends GetxController {
             'Item Count', 'You should at least add an item in the card',
             backgroundColor: AppColors.mainColor, colorText: Colors.white);
       }
-    } 
+    }
+    cartRepo.addCartListToShared(getItems);
     update();
   }
 
@@ -207,13 +209,33 @@ class CartController extends GetxController {
     });
     return totalQuantity;
   }
-  int get allAmount
-  {
-    var total=0;
-    _items.forEach((key, value) 
-    {
+
+  List<CartModel> get getItems {
+    return _items.entries.map((e) {
+      return e.value;
+    }).toList();
+  }
+
+  int get allAmount {
+    var total = 0;
+    _items.forEach((key, value) {
       total += value.quantity! * value.price!;
-     });
+    });
     return total;
+  }
+
+  //   this method will only call first time launch the app to put storage data in _items Map
+  List<CartModel> getCartData() {
+    setCart = cartRepo.getCartList(); // set items in storageItems List
+    return storageItems;
+  }
+
+  set setCart(List<CartModel> items) {
+    storageItems = items;
+
+    for (int i = 0; i < storageItems.length; i++) {
+      _items.putIfAbsent(storageItems[i].product!.id!,
+          () => storageItems[i]); // put storage Data in map
+    }
   }
 }

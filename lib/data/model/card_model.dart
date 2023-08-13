@@ -25,7 +25,7 @@ class CartModel {
     price = json['price'];
     isExist = json['isExist'];
     quantity = json['quantity'];
-    dateTime = json['dateTime'];
+    dateTime = json['time'];
     product = ProductModel.fromJson(json['products']);
   }
   Map<String, dynamic> toJson() {
@@ -36,7 +36,8 @@ class CartModel {
       'price': price,
       'isExist': isExist,
       'quantity': quantity,
-      'dateTime': dateTime,
+      'time': dateTime,
+      'products' : product!.toJson()
     };
   }
 }
