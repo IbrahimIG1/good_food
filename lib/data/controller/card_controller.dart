@@ -221,6 +221,7 @@ class CartController extends GetxController {
     _items.forEach((key, value) {
       total += value.quantity! * value.price!;
     });
+
     return total;
   }
 
@@ -237,5 +238,18 @@ class CartController extends GetxController {
       _items.putIfAbsent(storageItems[i].product!.id!,
           () => storageItems[i]); // put storage Data in map
     }
+  }
+
+  void addToHistory() {
+    cartRepo.addToCartHistoryList();
+    clear();
+  }
+
+  //  clear data from cartIconScreen
+  void clear() {
+    print('cleared');
+    _items = {};
+    update();
+    print('update');
   }
 }

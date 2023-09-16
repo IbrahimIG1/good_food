@@ -64,15 +64,20 @@ class CartPageIcon extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: GetBuilder<CartController>(builder: (cardController) {
+                child: GetBuilder<CartController>(builder: (cartController) {
                   return ConditionalBuilder(
-                      condition: cardController.cartList.isNotEmpty,
-                      fallback: (context) =>
-                          Center(child: CircularProgressIndicator()),
+                      condition: cartController.cartList.isNotEmpty,
+                      fallback: (context) => Center(
+                              child: Center(
+                                  child: Text(
+                            'No Orders Yet',
+                            style: TextStyle(
+                                fontSize: 18, color: AppColors.paraColor),
+                          ))),
                       builder: (context) {
                         return ListView.builder(
                           itemBuilder: (context, index) {
-                            var cartList = cardController.cartList[index];
+                            var cartList = cartController.cartList[index];
                             return Padding(
                               padding: EdgeInsets.symmetric(
                                   vertical: Dimentions.height10 / 2,
@@ -128,25 +133,25 @@ class CartPageIcon extends StatelessWidget {
                                                 children: [
                                                   BigText(
                                                       text:
-                                                          '\$ ${cartList.price! * cartList.quantity!}'),
-                                                plusMinusButton(
+                                                          '\$ ${cartList.price!}'),
+                                                  plusMinusButton(
                                                     quantity: cartList.quantity
                                                         .toString(),
                                                     minus: () {
-                                                      cardController.addItems(
+                                                      cartController.addItems(
                                                           productModel:
                                                               cartList.product!,
                                                           quantity: -1);
-                                                     
-                                                      Get.appUpdate(); // pass -1 to minus -1 to quantity
+
+                                                      // pass -1 to minus -1 to quantity
+                                                      Get.appUpdate();
                                                     },
                                                     plus: () {
-                                                      cardController.addItems(
+                                                      cartController.addItems(
                                                           productModel:
                                                               cartList.product!,
                                                           quantity: 1);
-                                                       // pass 1 to add 1 to quantity
-                                                      
+                                                      // pass 1 to add 1 to quantity
                                                       Get.appUpdate();
                                                     },
                                                   ),
@@ -160,7 +165,7 @@ class CartPageIcon extends StatelessWidget {
                                   ]),
                             );
                           },
-                          itemCount: cardController.cartList.length,
+                          itemCount: cartController.cartList.length,
                         );
                       });
                 }),
@@ -168,33 +173,39 @@ class CartPageIcon extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: NavBarContainer(
-          widget: Padding(
-            padding: EdgeInsets.symmetric(horizontal: Dimentions.width10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(Dimentions.radius20)),
-                  child: BigText(text: "\$ ${cardControllerNav.allAmount}"),
-                ),
-                InkWell(
-                  onTap: () {
-                    // cardController.cardRepo.addToCartHistoryList();
-                    // print('click');
-                    // cardController.cardRepo.getCartList();
-                    // cardController.updateDate(cardController.cartList);
-                  },
-                  child: NavButton(
-                      widget: BigText(text: 'Check out', color: Colors.white),
-                      buttonColor: AppColors.mainColor),
-                )
-              ],
+        bottomNavigationBar:
+            GetBuilder<CartController>(builder: (navCartController) {
+          return NavBarContainer(
+            widget: Padding(
+              padding: EdgeInsets.symmetric(horizontal: Dimentions.width10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.circular(Dimentions.radius20)),
+                    child: BigText(text: "\$ ${navCartController.allAmount}"),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      navCartController.addToHistory();
+
+                      // cardController.cardRepo.getCartList();
+                      // cardController.updateDate(cardController.cartList);
+                      Get.appUpdate();
+                      print('updated InkWell');
+                    },
+                    child: NavButton(
+                        widget: BigText(text: 'Check out', color: Colors.white),
+                        buttonColor: AppColors.mainColor),
+                  )
+                ],
+              ),
             ),
-          ),
-        ));
+          );
+        }));
   }
 }
