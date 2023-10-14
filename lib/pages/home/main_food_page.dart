@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/pages/cart_page/cart_history.dart';
 import 'package:food_delivery_app/pages/cart_page/cart_page.dart';
 import 'package:food_delivery_app/pages/home/food_page_body.dart';
 import 'package:food_delivery_app/utils/colors.dart';
@@ -15,7 +16,7 @@ List<Widget> buildPage = [
   Container(
     child: Text('Archive'),
   ),
-  CartPageScreen(),
+  CartHistoryScreen(),
   Container(
     child: Text('Done'),
   ),

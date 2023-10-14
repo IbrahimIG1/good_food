@@ -4,6 +4,7 @@ import 'package:food_delivery_app/data/controller/popular_product_controller.dar
 import 'package:food_delivery_app/data/controller/recommended_product_controller.dart';
 import 'package:food_delivery_app/data/helper/dependencies.dart' as dep;
 import 'package:food_delivery_app/pages/splash/splash_screen.dart';
+import 'package:food_delivery_app/utils/colors.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -28,8 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primarySwatch: Colors.blue),
       home: SplashScreen(),
     );
   }

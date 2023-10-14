@@ -252,4 +252,9 @@ class CartController extends GetxController {
     update();
     print('update');
   }
+
+  // get history data to show in cart History screen
+  List<CartModel> getCartHistoryList() {
+    return cartRepo.getCartHistoryList();
+  }
 }

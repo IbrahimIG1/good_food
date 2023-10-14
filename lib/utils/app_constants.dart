@@ -6,6 +6,7 @@ class AppConstants
   static const String BASE_URL = "http://mvs.bslmeiyu.com";
   static const String POPULAR_PRODUCT_URI = "/api/v1/products/popular";
   static const String RECOMMENDED_PRODUCT_URI = "/api/v1/products/recommended";
+  // to get network image call this variable frist IMAGE_URL + image path from any list
   static const String IMAGE_URL = "$BASE_URL/uploads/";
 
   static const String TOKEN = "token";

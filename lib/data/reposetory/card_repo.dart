@@ -62,7 +62,7 @@ class CartRepo {
     return cartHistoryList;
   }
 
-  // add Cart History to SharedPreference and cartHistoryList
+  // add Cart History to SharedPreference and cartHistoryList (ChekOut)
   void addToCartHistoryList() {
     if (sharedPreferences.containsKey(AppConstants.CART_HISTORY_LIST)) {
       cartHistory =

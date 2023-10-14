@@ -41,7 +41,7 @@ class CartPageIcon extends StatelessWidget {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: AppIcon(
+                      child: const AppIcon(
                           icon: Icons.arrow_back_ios,
                           backgroundColor: AppColors.mainColor,
                           iconColor: Colors.white),
@@ -51,12 +51,12 @@ class CartPageIcon extends StatelessWidget {
                       onTap: () {
                         navigateAndReplace(context, MainFoodPage());
                       },
-                      child: AppIcon(
+                      child: const AppIcon(
                           icon: Icons.home,
                           backgroundColor: AppColors.mainColor,
                           iconColor: Colors.white),
                     ),
-                    AppIcon(
+                    const AppIcon(
                         icon: Icons.shopping_cart,
                         backgroundColor: AppColors.mainColor,
                         iconColor: Colors.white),
@@ -67,7 +67,7 @@ class CartPageIcon extends StatelessWidget {
                 child: GetBuilder<CartController>(builder: (cartController) {
                   return ConditionalBuilder(
                       condition: cartController.cartList.isNotEmpty,
-                      fallback: (context) => Center(
+                      fallback: (context) => const Center(
                               child: Center(
                                   child: Text(
                             'No Orders Yet',

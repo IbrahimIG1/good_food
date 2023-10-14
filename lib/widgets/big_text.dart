@@ -15,6 +15,7 @@ class BigText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
+      textAlign: TextAlign.center,
       text,
       style: TextStyle(
           fontSize: size == 0 ? Dimentions.font20 : size,
