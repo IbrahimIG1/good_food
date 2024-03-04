@@ -15,10 +15,11 @@ class CartRepo {
     var time = DateTime.now().toString();
     cart = [];
     cartModel.forEach((element) {
+      // this condition to save old order date after click one more and save new order with new date
       element.dateTime =
           time; // set new time to get all of items oreder with the same time minute and seconds
       return cart.add(jsonEncode(element
-          .toJson())); // Convert The CartMode To String Because Save It In Shared prefs
+          .toJson())); // Convert The CartModel To String Because Save It In Shared prefs
     });
     sharedPreferences.setStringList(AppConstants.CART_LIST, cart);
     print('addCartListToShared Done');
@@ -84,5 +85,12 @@ class CartRepo {
   void removeCart() {
     cart = [];
     sharedPreferences.remove(AppConstants.CART_LIST);
+  }
+
+  // remove cartList from sharedprefs after check out
+  void removeCartHistory() {
+    removeCart();
+    cartHistory = [];
+    sharedPreferences.remove(AppConstants.CART_HISTORY_LIST);
   }
 }

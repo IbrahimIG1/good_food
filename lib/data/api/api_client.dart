@@ -12,15 +12,38 @@ class ApiClient extends GetConnect implements GetxService {
     token = AppConstants.TOKEN;
     _mainHeader = {
       'Content-type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer $token'
+      'Authorization': 'Bearer$token'
     };
   }
-  Future<Response> getData(String uri) async {
+  Future<Response> getData(
+    String uri,
+  ) async {
     try {
       Response response = await get(uri);
       return response;
     } catch (e) {
       return Response(statusCode: 1, statusText: e.toString());
     }
+  }
+
+  //  send user data to server
+  Future<Response> postData(String uri, dynamic body) async {
+    print("body  from postData is ${body.toString()}");
+    try {
+      Response response = await post(uri, body, headers: _mainHeader);
+
+      return response;
+    } on Exception catch (e) {
+      print("In Catch Error");
+      return Response(statusCode: 1, statusText: e.toString());
+    }
+  }
+
+  // put the new token in header
+  void updateHeader(String newToken) async {
+    _mainHeader = {
+      'Content-type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer$newToken'
+    };
   }
 }

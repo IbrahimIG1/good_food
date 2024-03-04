@@ -127,7 +127,7 @@ class CartController extends GetxController {
 
   Map<int, CartModel> _items = {};
   Map<int, CartModel> get items => _items;
-
+  String? oldTime;
   List<CartModel> storageItems = []; // only for storage and sharedprefrences
 
   // take data from product model not from UI
@@ -136,6 +136,9 @@ class CartController extends GetxController {
     var totalQuantity = 0;
     if (_items.containsKey(productModel.id)) {
       _items.update(productModel.id!, (value) {
+        // oldTime = value.dateTime == DateTime.now().toString()
+        //     ? DateTime.now().toString()
+        //     : value.dateTime;
         totalQuantity = value.quantity! + quantity;
         return CartModel(
             id: value.id,
@@ -145,7 +148,8 @@ class CartController extends GetxController {
             price: value.price,
             quantity: value.quantity! +
                 quantity, // Add new quantity to old one which added in (putIfAbsent)
-            dateTime: DateTime.now().toString(),
+            dateTime: oldTime,
+            // dateTime: DateTime.now().toString(),
             product: productModel);
       });
       if (totalQuantity <= 0) {
@@ -162,7 +166,8 @@ class CartController extends GetxController {
               img: productModel.img,
               price: productModel.price,
               quantity: quantity,
-              dateTime: DateTime.now().toString(),
+              dateTime: oldTime,
+              // dateTime: DateTime.now().toString(),
               product: productModel);
         });
       } else {
@@ -256,5 +261,23 @@ class CartController extends GetxController {
   // get history data to show in cart History screen
   List<CartModel> getCartHistoryList() {
     return cartRepo.getCartHistoryList();
+  }
+
+  set setItemsHis(Map<int, CartModel> setItems) {
+    _items = {};
+    _items = setItems;
+  }
+
+  void addToCartIconList() // save data in sharedprefrence again to edite it
+  {
+    cartRepo.addCartListToShared(getItems);
+
+    update();
+  }
+
+  void removeCartHistory() {
+    cartRepo.removeCartHistory();
+    update();
+    print('Remove Done');
   }
 }

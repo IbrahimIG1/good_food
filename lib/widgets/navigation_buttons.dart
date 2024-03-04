@@ -8,7 +8,7 @@ class NavButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(15),
+      padding: EdgeInsets.all(Dimentions.height15),
       decoration: BoxDecoration(
           color: buttonColor,
           borderRadius: BorderRadius.circular(Dimentions.radius20)),

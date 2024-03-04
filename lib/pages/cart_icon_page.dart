@@ -1,5 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/base/no_data_page.dart';
+import 'package:food_delivery_app/data/controller/auth_controller.dart';
+import 'package:food_delivery_app/pages/auth/sign_in.dart';
 import 'package:food_delivery_app/pages/home/main_food_page.dart';
 import 'package:food_delivery_app/shared_packages/navigators.dart';
 import 'package:food_delivery_app/utils/app_constants.dart';
@@ -65,17 +68,8 @@ class CartPageIcon extends StatelessWidget {
               ),
               Expanded(
                 child: GetBuilder<CartController>(builder: (cartController) {
-                  return ConditionalBuilder(
-                      condition: cartController.cartList.isNotEmpty,
-                      fallback: (context) => const Center(
-                              child: Center(
-                                  child: Text(
-                            'No Orders Yet',
-                            style: TextStyle(
-                                fontSize: 18, color: AppColors.paraColor),
-                          ))),
-                      builder: (context) {
-                        return ListView.builder(
+                  return cartController.getItems.isNotEmpty
+                      ? ListView.builder(
                           itemBuilder: (context, index) {
                             var cartList = cartController.cartList[index];
                             return Padding(
@@ -166,8 +160,10 @@ class CartPageIcon extends StatelessWidget {
                             );
                           },
                           itemCount: cartController.cartList.length,
+                        )
+                      : NoDataPage(
+                          text: 'Your Cart Is Empty',
                         );
-                      });
                 }),
               ),
             ],
@@ -178,32 +174,46 @@ class CartPageIcon extends StatelessWidget {
           return NavBarContainer(
             widget: Padding(
               padding: EdgeInsets.symmetric(horizontal: Dimentions.width10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                            BorderRadius.circular(Dimentions.radius20)),
-                    child: BigText(text: "\$ ${navCartController.allAmount}"),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      navCartController.addToHistory();
+              child: navCartController.getItems.isNotEmpty
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.circular(Dimentions.radius20)),
+                          child: BigText(
+                              text: "\$ ${navCartController.allAmount}"),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (AppConstants.TOKEN.isNotEmpty) {
+                              print('TOKEN IS NOT EMPTY');
+                              print(AppConstants.TOKEN);
+                              navCartController.addToHistory();
+                            } else {
+                              print('TOKEN IS EMPTY');
+                              print(AppConstants.TOKEN);
+                              navigateAndReplace(context, SignInPage());
+                            }
 
-                      // cardController.cardRepo.getCartList();
-                      // cardController.updateDate(cardController.cartList);
-                      Get.appUpdate();
-                      print('updated InkWell');
-                    },
-                    child: NavButton(
-                        widget: BigText(text: 'Check out', color: Colors.white),
-                        buttonColor: AppColors.mainColor),
-                  )
-                ],
-              ),
+                            // cardController.cardRepo.getCartList();
+                            // cardController.updateDate(cardController.cartList);
+                            Get.appUpdate();
+                            print('updated InkWell');
+                          },
+                          child: NavButton(
+                              widget: BigText(
+                                  text: 'Check out', color: Colors.white),
+                              buttonColor: AppColors.mainColor),
+                        )
+                      ],
+                    )
+                  : Container(
+                      color: Colors.white,
+                    ),
             ),
           );
         }));

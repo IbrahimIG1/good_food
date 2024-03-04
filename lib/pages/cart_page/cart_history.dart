@@ -69,8 +69,15 @@
 //     );
 //   }
 // }
+import 'dart:convert';
+
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/base/no_data_page.dart';
 import 'package:food_delivery_app/data/controller/card_controller.dart';
+import 'package:food_delivery_app/data/model/card_model.dart';
+import 'package:food_delivery_app/pages/cart_icon_page.dart';
+import 'package:food_delivery_app/shared_packages/navigators.dart';
 import 'package:food_delivery_app/utils/app_constants.dart';
 import 'package:food_delivery_app/utils/colors.dart';
 import 'package:food_delivery_app/utils/dimentions.dart';
@@ -99,19 +106,39 @@ class CartHistoryScreen extends StatelessWidget {
         cartItemPerOrdre.putIfAbsent(getCartHistoryList[i].dateTime!, () => 1);
       }
     }
-    // convert map to list
-    List<int> cartOrderTimeToList() {
+    // convert map to list and save value
+    List<int> cartOrderTimeValue() {
       return cartItemPerOrdre.entries.map((e) => e.value).toList();
     }
 
+    // convert map to list and save key
+    List<String> cartOrderTimeKey() {
+      return cartItemPerOrdre.entries.map((e) => e.key).toList();
+    }
+
     List<int> orderTime =
-        cartOrderTimeToList(); // the value number of reapet dateTIme of orders
+        cartOrderTimeValue(); // the value number of reapet dateTime of orders
+    List<String> orderDate = cartOrderTimeKey(); // the Key dateTIme of orders
     var listCounter = 0;
+    Widget timeWidget(int index) {
+      var outPutDate = DateTime.now().toString();
+      if (index < getCartHistoryList.length) {
+        DateTime parseDate = DateFormat('yyyy-MM-dd HH:mm:ss')
+            .parse(getCartHistoryList[listCounter].dateTime!);
+        var inputDate = DateTime.parse(parseDate.toString());
+        var outPutFormat = DateFormat('MM-dd-yyy HH:mm a');
+        outPutDate = outPutFormat.format(inputDate);
+      } // Date Time Format Variables
+
+      return BigText(text: outPutDate);
+    }
+
     return SafeArea(
       child: Scaffold(
         body: Column(
           children: [
             // app Bar section
+
             Container(
               color: AppColors.mainColor,
               width: double.maxFinite,
@@ -128,133 +155,201 @@ class CartHistoryScreen extends StatelessWidget {
                       icon: Icons.shopping_cart_outlined,
                       iconColor: AppColors.mainColor,
                     ),
+                    InkWell(
+                        onTap: () {
+                          Get.find<CartController>().removeCartHistory();
+                        },
+                        child: AppIcon(icon: Icons.delete))
                   ]),
             ),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(
-                    top: Dimentions.height20,
-                    left: Dimentions.height20,
-                    right: Dimentions.height20),
-                child: MediaQuery.removePadding(
-                  removeTop: true,
-                  context: context,
-                  // ListView has padding by default
-                  child: ListView(
-                    children: [
-                      for (int i = 0; i < orderTime.length; i++)
-                        Container(
-                          height: Dimentions.height120, // parent height
-                          margin: EdgeInsets.only(bottom: Dimentions.height20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              (() {
-                                DateTime parseDate = DateTime.parse(
-                                    getCartHistoryList[i]
-                                        .dateTime!); // convert string to Date time to format it to date and time
-                                return BigText(
-                                    text: DateFormat('MM/dd/yyyy  hh:mm a')
-                                        .format(parseDate)
-                                        .toString()); // orders date time
-                              }()),
-                              SizedBox(
-                                height: Dimentions.height10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  //  Wrap : reapet list of pbjects
-                                  Wrap(
-                                    direction: Axis.horizontal,
-                                    children:
-                                        // this list generate is a for loop this lenght is orderTime[i].
-                                        // orderTime[i] is list have how many items in order (order have 3 kind different).
-                                        // getCartHistoryList[i] have all of orders history ,index is about all of them .
-                                        // order in orderTime[i] list have index , and the same order in getCartHistoryList[i] have another index
-                                        // so create listCounter and increase it continuously to keep up increase in getCartHistoryList[i] index and get next order when orderTime[i] index has start from 0 again
 
-                                        List.generate(orderTime[i], (index) {
-                                      if (listCounter <
-                                          getCartHistoryList.length) {
-                                        listCounter++;
-                                      }
-                                      // print('index = $index  listCounter = $listCounter  orderTime[i] = ${orderTime[i]}');
-                                      return index <=
-                                              2 // to show 3 image only (overflowed exception)
-                                          ?
-                                          //  orders food image
-                                          Container(
-                                              margin: EdgeInsets.only(
-                                                  right:
-                                                      Dimentions.width10 / 2),
-                                              width:
-                                                  Dimentions.width120 / 2 + 10,
-                                              height:
-                                                  Dimentions.height120 / 2 + 10,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image: NetworkImage(
-                                                        AppConstants.IMAGE_URL +
-                                                            getCartHistoryList[
-                                                                    listCounter -
-                                                                        1]
-                                                                .img!),
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          Dimentions.radius15 /
-                                                              2)),
-                                            )
-                                          : Container();
-                                    }),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+            GetBuilder<CartController>(builder: (cartcontroller) {
+              return cartcontroller.getCartHistoryList().isNotEmpty
+                  ? Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            top: Dimentions.height20,
+                            left: Dimentions.height20,
+                            right: Dimentions.height20),
+                        child: MediaQuery.removePadding(
+                          removeTop: true,
+                          context: context,
+                          // ListView has padding by default
+                          child: ListView(
+                            children: [
+                              for (int i = 0; i < orderTime.length; i++)
+                                Container(
+                                  height: Dimentions.height120 +
+                                      Dimentions.height10, // parent height
+                                  margin: EdgeInsets.only(
+                                      bottom: Dimentions.height20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      SmallText(
-                                          text: 'Total',
-                                          color: AppColors.titleColor),
+                                      timeWidget(listCounter),
                                       SizedBox(
                                         height: Dimentions.height10,
                                       ),
-                                      BigText(
-                                          text: '${orderTime[i]} Items',
-                                          color: AppColors.titleColor),
-                                      SizedBox(
-                                        height: Dimentions.height10,
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: Dimentions.height10 / 2,
-                                            horizontal: Dimentions.height10),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                                Dimentions.radius15 / 3),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: AppColors.mainColor)),
-                                        child: Text(
-                                          'one more',
-                                          style: TextStyle(
-                                              color: AppColors.mainColor),
-                                        ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          //  Wrap : reapet list of pbjects
+                                          Wrap(
+                                            direction: Axis.horizontal,
+                                            children:
+                                                // this list generate is a for loop this lenght is orderTime[i].
+                                                // orderTime[i] is list have how many items in order (order have 3 kind different).
+                                                // getCartHistoryList[i] have all of orders history ,index is about all of them .
+                                                // order in orderTime[i] list have index , and the same order in getCartHistoryList[i] have another index
+                                                // so create listCounter and increase it continuously to keep up increase in getCartHistoryList[i] index and get next order when orderTime[i] index has start from 0 again
+
+                                                List.generate(orderTime[i],
+                                                    (index) {
+                                              if (listCounter <
+                                                  getCartHistoryList.length) {
+                                                listCounter++;
+                                              }
+                                              // print('index = $index  listCounter = $listCounter  orderTime[i] = ${orderTime[i]}');
+                                              return index <=
+                                                      2 // to show 3 image only (overflowed exception)
+                                                  ?
+                                                  //  orders food image
+                                                  Container(
+                                                      margin: EdgeInsets.only(
+                                                          right: Dimentions
+                                                                  .width10 /
+                                                              2),
+                                                      width:
+                                                          Dimentions.width120 /
+                                                                  2 +
+                                                              10,
+                                                      height:
+                                                          Dimentions.height120 /
+                                                                  2 +
+                                                              10,
+                                                      decoration: BoxDecoration(
+                                                          image:
+                                                              DecorationImage(
+                                                            fit: BoxFit.cover,
+                                                            image: NetworkImage(AppConstants
+                                                                    .IMAGE_URL +
+                                                                getCartHistoryList[
+                                                                        listCounter -
+                                                                            1]
+                                                                    .img!),
+                                                          ),
+                                                          borderRadius: BorderRadius
+                                                              .circular(Dimentions
+                                                                      .radius15 /
+                                                                  2)),
+                                                    )
+                                                  : Container();
+                                            }),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              SmallText(
+                                                  text: 'Total',
+                                                  color: AppColors.titleColor),
+                                              SizedBox(
+                                                height: Dimentions.height10,
+                                              ),
+                                              BigText(
+                                                  text:
+                                                      '${orderTime[i].toString()} Items',
+                                                  color: AppColors.titleColor),
+                                              SizedBox(
+                                                height: Dimentions.height10,
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  List<String> orderTime =
+                                                      cartOrderTimeKey();
+                                                  Map<int, CartModel>
+                                                      moreOrder = {};
+                                                  //  add order which clicked on it in new map to pass to items map to show again in cart screen
+                                                  for (int j = 0;
+                                                      j <
+                                                          getCartHistoryList
+                                                              .length;
+                                                      j++) {
+                                                    if (getCartHistoryList[j]
+                                                            .dateTime ==
+                                                        orderTime[i]) {
+                                                      moreOrder.putIfAbsent(
+                                                        getCartHistoryList[j]
+                                                            .id!,
+                                                        () =>
+                                                            CartModel.fromJson(
+                                                          // Parses the string and returns the resulting Json object.
+                                                          jsonDecode(
+                                                            // Converts [object] to a JSON string.
+                                                            jsonEncode(
+                                                                getCartHistoryList[
+                                                                    j]),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+                                                  }
+                                                  print('Get here');
+                                                  Get.find<CartController>()
+                                                      .setItemsHis = moreOrder;
+                                                  Get.find<CartController>()
+                                                      .addToCartIconList();
+                                                  navigateAndReplace(
+                                                      context, CartPageIcon());
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical:
+                                                          Dimentions.height10 /
+                                                              2,
+                                                      horizontal:
+                                                          Dimentions.height10),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius
+                                                          .circular(Dimentions
+                                                                  .radius15 /
+                                                              3),
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color: AppColors
+                                                              .mainColor)),
+                                                  child: Text(
+                                                    'one more',
+                                                    style: TextStyle(
+                                                        color: AppColors
+                                                            .mainColor),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
                                       )
                                     ],
-                                  )
-                                ],
-                              )
+                                  ),
+                                )
                             ],
                           ),
-                        )
-                    ],
-                  ),
-                ),
-              ),
-            )
+                        ),
+                      ),
+                    )
+                  : Container(
+                      height: MediaQuery.of(context).size.height / 1.5,
+                      child: NoDataPage(
+                        text: 'You didn\'t Buy anything yet',
+                        imgPath: 'assets/image/empty_box.png',
+                      ),
+                    );
+            })
           ],
         ),
       ),

@@ -301,8 +301,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         //  image section
         Container(
             // margin: EdgeInsets.only(bottom: Dimentions.height10),
-            width: Dimentions.listViewImageSize,
-            height: Dimentions.listViewImageSize,
+            width: MediaQuery.of(context).size.width / 3.272725,
+            height: MediaQuery.of(context).size.height / 6.697,
             decoration: BoxDecoration(
                 color: Colors.white38,
                 borderRadius: BorderRadius.circular(Dimentions.radius15),
@@ -312,7 +312,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                         AppConstants.IMAGE_URL + productModel.img!)))),
         Expanded(
           child: Container(
-            height: Dimentions.listViewTxtContainerSize,
+            height: Dimentions.listViewTxtContainerSize + 10,
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(

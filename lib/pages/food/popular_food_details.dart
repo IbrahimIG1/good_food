@@ -65,22 +65,12 @@ class PopularFoodDetails extends StatelessWidget {
                         iconSize: Dimentions.iconSize16)),
                 GetBuilder<PopularProductController>(builder: (popularProduct) {
                   return InkWell(
-                    onTap: () {
-                      // Navigator.push(context, MaterialPageRoute(
-                      //   builder: (context) {
-                      //     return CartPageIcon();
-                      //   },
-                      // )
-                      // );
+                    onTap: ()
+                    {
+                      navigateTo(context, CartPageIcon());
                     },
-                    child: InkWell(
-                      onTap: ()
-                      {
-                        navigateTo(context, CartPageIcon());
-                      },
-                      child: CartStack(
-                        popularProduct: popularProduct,
-                      ),
+                    child: CartStack(
+                      popularProduct: popularProduct,
                     ),
                   );
                 }),

@@ -48,8 +48,7 @@ class RecommendedFoodDetails extends StatelessWidget {
                         icon: Icons.clear, iconSize: Dimentions.iconSize16)),
                 GetBuilder<PopularProductController>(builder: (popularProduct) {
                   return InkWell(
-                    onTap: ()
-                    {
+                    onTap: () {
                       navigateTo(context, CartPageIcon());
                     },
                     child: CartStack(
@@ -108,9 +107,12 @@ class RecommendedFoodDetails extends StatelessWidget {
                       ),
                     )),
                 BigText(
-                    text: '\$${product.price!} X ${popularProduct.inCartItems}'),
+                    text:
+                        '\$${product.price!} X ${popularProduct.inCartItems}'),
                 Container(
+                    
                     decoration: BoxDecoration(
+                      
                         shape: BoxShape.circle, color: AppColors.mainColor),
                     child: InkWell(
                       onTap: () {

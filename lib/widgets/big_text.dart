@@ -7,8 +7,10 @@ class BigText extends StatelessWidget {
       required this.text,
       this.color = const Color(0xFF332d2b),
       this.textOverflow = TextOverflow.ellipsis,
+      this.fontWeight = FontWeight.w400,
       this.size = 0});
   final String text;
+  FontWeight fontWeight;
   Color color;
   TextOverflow textOverflow;
   double size;
@@ -20,7 +22,7 @@ class BigText extends StatelessWidget {
       style: TextStyle(
           fontSize: size == 0 ? Dimentions.font20 : size,
           color: color,
-          fontWeight: FontWeight.w400,
+          fontWeight: fontWeight,
           fontFamily: 'Roboto',
           overflow: textOverflow),
     );
