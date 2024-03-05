@@ -31,10 +31,8 @@ class AuthRepo {
     apiClient.token = token;
     apiClient.updateHeader(token);
     AppConstants.TOKEN = token;
-    print(AppConstants.TOKEN);
-    print("token => ");
-
-    print(token);
+    print("AppConstants.TOKEN => ${AppConstants.TOKEN}");
+    
     return await sharedPreferences.setString("token", token);
   }
 
@@ -43,10 +41,11 @@ class AuthRepo {
     return await sharedPreferences.getString("token") ?? "None";
   }
 
-  // bool userLoggedIn() {
-  //   print('Is User Logged In');
-  //   return sharedPreferences.containsKey('token');
-  // }
+  bool userLoggedIn() {
+    print('Is User Logged In');
+    print(sharedPreferences.containsKey("token"));
+    return sharedPreferences.containsKey("token");
+  }
 
   // UserModel getUserData() {
   //   UserModel userModel;

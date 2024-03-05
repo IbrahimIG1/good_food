@@ -43,8 +43,15 @@ class AccountPage extends StatelessWidget {
       'color': Colors.redAccent,
     },
   ];
+
   @override
   Widget build(BuildContext context) {
+    bool _userLoggedIn = Get.find<AuthController>().userLoggedIn();
+    if (_userLoggedIn) {
+      print("Get _userLogged In IN IF Account Page ${_userLoggedIn}");
+      print("Get User Info IN IF Account Page");
+      Get.find<UserController>().getUserInfo();
+    }
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -55,60 +62,72 @@ class AccountPage extends StatelessWidget {
         elevation: 6,
       ),
       body: GetBuilder<UserController>(builder: (userController) {
-        return Container(
-          padding: EdgeInsets.only(top: Dimentions.height20),
-          child: Column(
-            children: [
-              // Profile Image
-              AppIcon(
-                  icon: Icons.person,
-                  backgroundColor: AppColors.mainColor,
-                  iconSize: Dimentions.height45 + Dimentions.height30,
-                  iconColor: Colors.white,
-                  size: Dimentions.height15 * 10),
-              SizedBox(
-                height: Dimentions.height30,
-              ),
-              // User Info
-              Expanded(
-                child: ListView.builder(
-                    itemCount: infoData.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          if (index == 4) {
-                            // if (Get.find<AuthController>().userLoggedIn()) {
-                              print('index == 4');
-                              Get.find<AuthController>().clearSharedData();
-                              Get.find<CartController>().clear();
-                              Get.find<CartController>().removeCartHistory();
-                              navigateAndReplace(context, SplashScreen());
-                            // } else {
-                              show_custom_snakbar('You Logged Out',
-                                  color: Colors.red);
-                            // }
-                          }
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: Dimentions.height20),
-                          child: AccountWidget(
-                              appIcon: AppIcon(
-                                  icon: infoData[index]['icon'],
-                                  backgroundColor: infoData[index]['color'],
-                                  iconSize: Dimentions.height10 * 5 / 2,
-                                  iconColor: Colors.white,
-                                  size: Dimentions.height10 * 5),
-                              bigText: BigText(
-                                text: infoData[index]['text'],
-                                // text: userController.userModel.name!,
-                              )),
-                        ),
-                      );
-                    }),
-              ),
-            ],
-          ),
-        );
+        return
+            // _userLoggedIn
+            // ? (userController.isLoading
+            // ?
+            Container(
+                padding: EdgeInsets.only(top: Dimentions.height20),
+                child: Column(
+                  children: [
+                    // Profile Image
+                    AppIcon(
+                        icon: Icons.person,
+                        backgroundColor: AppColors.mainColor,
+                        iconSize: Dimentions.height45 + Dimentions.height30,
+                        iconColor: Colors.white,
+                        size: Dimentions.height15 * 10),
+                    SizedBox(
+                      height: Dimentions.height30,
+                    ),
+                    // User Info
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: infoData.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                if (index == 4) {
+                                  // if (Get.find<AuthController>()
+                                  //     .userLoggedIn()) {
+                                  print('index == 4');
+                                  Get.find<AuthController>().clearSharedData();
+                                  Get.find<CartController>().clear();
+                                  Get.find<CartController>()
+                                      .removeCartHistory();
+                                  navigateAndReplace(context, SplashScreen());
+                                  // } else {
+                                  show_custom_snakbar('You Logged Out',
+                                      color: Colors.red);
+                                  // }
+                                }
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: Dimentions.height20),
+                                child: AccountWidget(
+                                    appIcon: AppIcon(
+                                        icon: infoData[index]['icon'],
+                                        backgroundColor: infoData[index]
+                                            ['color'],
+                                        iconSize: Dimentions.height10 * 5 / 2,
+                                        iconColor: Colors.white,
+                                        size: Dimentions.height10 * 5),
+                                    bigText: BigText(
+                                      text: infoData[index]['text'],
+                                      // text: userController.userModel.name,
+                                    )),
+                              ),
+                            );
+                          }),
+                    ),
+                  ],
+                ));
+        // : Center(child: CircularProgressIndicator())
+        //     )
+        // : Container(
+        //     child: Center(child: Text('You Must Logged In')),
+        //   );
       }),
     );
   }

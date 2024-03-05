@@ -12,7 +12,7 @@ class AppConstants {
   // user and auth end point
   static const String REGISTRATION_URI = "/api/v1/auth/register";
   static const String LOGIN_URI = "/api/v1/auth/login";
-  static const String USER_INFO = "/api/v1/cusomer/info";
+  static const String USER_INFO = "/api/v1/customer/info";
 
   // to get network image call this variable frist IMAGE_URL + image path from any list
   static const String IMAGE_URL = "$BASE_URL/uploads/";

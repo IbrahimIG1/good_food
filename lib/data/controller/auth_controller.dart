@@ -73,9 +73,9 @@ class AuthController extends GetxController implements GetxService {
     authRepo.saveUserNumAndPassword(num, password);
   }
 
-  // bool userLoggedIn() {
-  //   return authRepo.userLoggedIn();
-  // }
+  bool userLoggedIn() {
+    return authRepo.userLoggedIn();
+  }
 
   bool clearSharedData() {
     print('clear Done');

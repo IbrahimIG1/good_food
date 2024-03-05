@@ -6,7 +6,14 @@ class UserRepo {
   final ApiClient apiClient;
   UserRepo({required this.apiClient});
 
-  Future<Response> getUserInfo() async{
-    return await apiClient.getData(AppConstants.USER_INFO,);
+  Future<Response> getUserInfo() async {
+    print('User Repo :- get User Info Start');
+    return await apiClient.getData(
+      AppConstants.USER_INFO,
+      headers:  {
+      'Content-type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer${AppConstants.TOKEN}'
+    }
+    );
   }
 }

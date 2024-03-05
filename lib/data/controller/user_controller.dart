@@ -12,19 +12,22 @@ class UserController extends GetxController implements GetxService {
   bool get isLoading => _isLoading;
   UserModel get userModel => _userModel;
   Future<ResponseModel> getUserInfo() async {
-    _isLoading = true;
-    update();
+    print('User Controller :- get User Info Start');
+    // _isLoading = true;
+    // update();
+
     Response response = await userRepo.getUserInfo();
     late ResponseModel responseModel;
-    if (response.status == 200) {
-      responseModel = ResponseModel(true, 'Successfully');
+    if (response.statusCode == 200) {
       _userModel = UserModel.fromJson(response.body);
+      _isLoading = true;
+      responseModel = ResponseModel(true, 'Successfully');
     } else {
-      responseModel = ResponseModel(false, response.statusText!);
+      responseModel =
+          ResponseModel(false, "statusText : ${response.statusText!}");
     }
-    _isLoading = false;
-
     update();
+    print('User Controller :- get User Info End');
     return responseModel;
   }
 }
