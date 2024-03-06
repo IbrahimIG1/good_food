@@ -43,7 +43,7 @@ class AuthController extends GetxController implements GetxService {
       required String password,
       required String phone}) async {
     print("Getting token");
-    authRepo.getUserToken();
+    // authRepo.getUserToken();
     // print(authRepo.getUserToken().toString());
 
     _isLoading = true;
@@ -52,21 +52,26 @@ class AuthController extends GetxController implements GetxService {
     Response response =
         await authRepo.login(email: email, password: password, phone: phone);
     // authRepo.saveUserToken(response.body['token']);
-    print("response.body['token'] ==>> ${response.body['token']}");
+    // print("response.body['token'] ==>> ${response.body['token']}");
     if (response.statusCode == 200) {
       print("Backed token");
-      authRepo.saveUserToken(response.body['token']);
-      print(
-          "response body token in Login  : ${response.body['token'].toString()}");
+      AppConstants.TOKEN = authRepo.saveUserToken(response.body['token']).toString();
+      // print(
+          "response body token in Login  : ${response.body['token'].toString()}";
       responseModel = ResponseModel(true, response.body['token']);
-      print('TOKEN In LOGIN');
-      print(AppConstants.TOKEN);
+      // print('TOKEN In LOGIN');
+      // print(AppConstants.TOKEN);
     } else {
       responseModel = ResponseModel(false, response.statusText!);
     }
     _isLoading = false;
     update();
     return responseModel;
+  }
+
+  Future<String> getUserToken() async {
+    // print("authRepo.getUserToken() ................>>>${authRepo.getUserToken().toString()}");
+    return await authRepo.getUserToken();
   }
 
   void saveUserNumAndPassword(String num, String password) async {

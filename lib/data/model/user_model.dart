@@ -2,7 +2,7 @@ class UserModel {
   String name;
   String phone;
   String email;
-  String id;
+  int id;
   int orderCount;
   UserModel(
       {required this.name,

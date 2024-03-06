@@ -191,11 +191,11 @@ class CartPageIcon extends StatelessWidget {
                           onTap: () {
                             if (AppConstants.TOKEN.isNotEmpty) {
                               print('TOKEN IS NOT EMPTY');
-                              print(AppConstants.TOKEN);
+                              // print(AppConstants.TOKEN);
                               navCartController.addToHistory();
                             } else {
                               print('TOKEN IS EMPTY');
-                              print(AppConstants.TOKEN);
+                              // print(AppConstants.TOKEN);
                               navigateAndReplace(context, SignInPage());
                             }
 

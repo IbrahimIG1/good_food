@@ -7,6 +7,7 @@ import 'package:food_delivery_app/data/model/signup_model.dart';
 import 'package:food_delivery_app/data/model/user_model.dart';
 import 'package:food_delivery_app/pages/auth/sign_up.dart';
 import 'package:food_delivery_app/pages/cart_icon_page.dart';
+import 'package:food_delivery_app/pages/home/main_food_page.dart';
 import 'package:food_delivery_app/shared_packages/navigators.dart';
 import 'package:food_delivery_app/utils/app_constants.dart';
 import 'package:food_delivery_app/utils/colors.dart';
@@ -70,7 +71,7 @@ class SignInPage extends StatelessWidget {
         if (status.isSuccess) {
           show_custom_snakbar('Will Done',
               title: 'Sign up Success', color: Colors.green);
-          navigateAndReplace(context, CartPageIcon());
+          navigateAndReplace(context, MainFoodPage());
           print('Login Sucess');
         } else {
           show_custom_snakbar(status.message);
@@ -172,7 +173,7 @@ class SignInPage extends StatelessWidget {
                               //       "phone":"123456789"
                               //     });
                               print('Sign In Click');
-                              print(AppConstants.TOKEN);
+                              // print(AppConstants.TOKEN);
                             },
                             child: Container(
                               width: Dimentions.screenWidth / 2,

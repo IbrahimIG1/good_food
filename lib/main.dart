@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/data/controller/auth_controller.dart';
 // import 'dart:io';
 import 'package:food_delivery_app/data/controller/card_controller.dart';
 import 'package:food_delivery_app/data/controller/dio_helper.dart';
@@ -34,12 +35,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.find<CartController>().getCartData(); // call to get storage data
+    Get.find<AuthController>().getUserToken(); // call to get storage data
     Get.find<PopularProductController>()
         .getPopularProductList(); // to call controller after splash screen
     
     Get.find<RecommendedProductController>()
         .getRecommendedProductList(); // to call controller after splash screen
-        //  Get.find<UserController>().getUserInfo(); 
+         Get.find<UserController>().getUserInfo(); 
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,

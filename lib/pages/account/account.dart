@@ -19,16 +19,20 @@ class AccountPage extends StatelessWidget {
   AccountPage({super.key});
 
   // Account Data UI Information
-
-  List<Map> infoData = [
+  late UserModel userModel;
+  late List<Map> infoData = [
     {
       'icon': Icons.person,
-      'text': "ibrahim",
+      'text': "userModel.name",
       'color': AppColors.mainColor,
     },
-    {'icon': Icons.phone, 'text': '01021861291', 'color': Colors.greenAccent},
     {
-      'icon': Icons.mail,
+      'icon': Icons.phone_android,
+      'text': "userModel.phone",
+      'color': Colors.greenAccent
+    },
+    {
+      'icon': Icons.email,
       'text': 'Info@gmail.com',
       'color': AppColors.yellowColor
     },
@@ -46,6 +50,14 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserController userController = Get.find<UserController>();
+    late List<String> userModelInfo = [
+      userController.userModel.name,
+      userController.userModel.phone,
+      userController.userModel.email,
+      userController.userModel.id.toString(),
+      'Log Out'
+    ];
     bool _userLoggedIn = Get.find<AuthController>().userLoggedIn();
     if (_userLoggedIn) {
       print("Get _userLogged In IN IF Account Page ${_userLoggedIn}");
@@ -62,72 +74,77 @@ class AccountPage extends StatelessWidget {
         elevation: 6,
       ),
       body: GetBuilder<UserController>(builder: (userController) {
-        return
-            // _userLoggedIn
-            // ? (userController.isLoading
-            // ?
-            Container(
-                padding: EdgeInsets.only(top: Dimentions.height20),
-                child: Column(
-                  children: [
-                    // Profile Image
-                    AppIcon(
-                        icon: Icons.person,
-                        backgroundColor: AppColors.mainColor,
-                        iconSize: Dimentions.height45 + Dimentions.height30,
-                        iconColor: Colors.white,
-                        size: Dimentions.height15 * 10),
-                    SizedBox(
-                      height: Dimentions.height30,
-                    ),
-                    // User Info
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: infoData.length,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                if (index == 4) {
-                                  // if (Get.find<AuthController>()
-                                  //     .userLoggedIn()) {
-                                  print('index == 4');
-                                  Get.find<AuthController>().clearSharedData();
-                                  Get.find<CartController>().clear();
-                                  Get.find<CartController>()
-                                      .removeCartHistory();
-                                  navigateAndReplace(context, SplashScreen());
-                                  // } else {
-                                  show_custom_snakbar('You Logged Out',
-                                      color: Colors.red);
-                                  // }
-                                }
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: Dimentions.height20),
-                                child: AccountWidget(
-                                    appIcon: AppIcon(
-                                        icon: infoData[index]['icon'],
-                                        backgroundColor: infoData[index]
-                                            ['color'],
-                                        iconSize: Dimentions.height10 * 5 / 2,
-                                        iconColor: Colors.white,
-                                        size: Dimentions.height10 * 5),
-                                    bigText: BigText(
-                                      text: infoData[index]['text'],
-                                      // text: userController.userModel.name,
-                                    )),
-                              ),
-                            );
-                          }),
-                    ),
-                  ],
-                ));
-        // : Center(child: CircularProgressIndicator())
-        //     )
-        // : Container(
-        //     child: Center(child: Text('You Must Logged In')),
-        //   );
+        return _userLoggedIn
+            ? (userController.isLoading
+                ? Container(
+                    padding: EdgeInsets.only(top: Dimentions.height20),
+                    child: Column(
+                      children: [
+                        // Profile Image
+                        AppIcon(
+                            icon: Icons.person,
+                            backgroundColor: AppColors.mainColor,
+                            iconSize: Dimentions.height45 + Dimentions.height30,
+                            iconColor: Colors.white,
+                            size: Dimentions.height15 * 10),
+                        SizedBox(
+                          height: Dimentions.height30,
+                        ),
+                        // User Info
+                        Expanded(
+                          child: ListView.builder(
+                              itemCount: infoData.length,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    if (index == 4) {
+                                      if (Get.find<AuthController>()
+                                          .userLoggedIn()) {
+                                        print('index == 4');
+                                        Get.find<AuthController>()
+                                            .clearSharedData();
+                                        Get.find<CartController>().clear();
+                                        Get.find<CartController>()
+                                            .removeCartHistory();
+                                        navigateAndReplace(
+                                            context, SplashScreen());
+                                      } else {
+                                        show_custom_snakbar('You Logged Out',
+                                            color: Colors.red);
+                                      }
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: Dimentions.height20),
+                                    child: AccountWidget(
+                                        appIcon: AppIcon(
+                                            icon: infoData[index]['icon'],
+                                            backgroundColor: infoData[index]
+                                                ['color'],
+                                            iconSize:
+                                                Dimentions.height10 * 5 / 2,
+                                            iconColor: Colors.white,
+                                            size: Dimentions.height10 * 5),
+                                        bigText: BigText(
+                                          // text: infoData[index]['text'],
+                                          text: userModelInfo[index],
+                                        )),
+                                  ),
+                                );
+                              }),
+                        ),
+                      ],
+                    ))
+                : Center(child: CircularProgressIndicator()))
+            : Container(
+                child: Center(
+                    child: InkWell(
+                        onTap: () {
+                          navigateAndReplace(context, SignInPage());
+                        },
+                        child: Text('You Must Logged In'))),
+              );
       }),
     );
   }

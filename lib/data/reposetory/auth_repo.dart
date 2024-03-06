@@ -31,14 +31,14 @@ class AuthRepo {
     apiClient.token = token;
     apiClient.updateHeader(token);
     AppConstants.TOKEN = token;
-    print("AppConstants.TOKEN => ${AppConstants.TOKEN}");
-    
+    // print("AppConstants.TOKEN => ${AppConstants.TOKEN}");
+
     return await sharedPreferences.setString("token", token);
   }
 
   Future<String> getUserToken() async {
     print('getUserToken => ${sharedPreferences.getString}');
-    return await sharedPreferences.getString("token") ?? "None";
+    return await sharedPreferences.getString("token") ?? "";
   }
 
   bool userLoggedIn() {

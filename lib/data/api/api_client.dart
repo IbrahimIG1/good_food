@@ -11,22 +11,22 @@ class ApiClient extends GetConnect implements GetxService {
   ApiClient({required this.appBaseUrl, required this.sharedPreferences}) {
     baseUrl = appBaseUrl;
     timeout = Duration(seconds: 30);
-    token = sharedPreferences.getString("token")!;
+    token = sharedPreferences.getString("token")??"";
     _mainHeader = {
       'Content-type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer$token'
+      'Authorization': 'Bearer $token'
     };
   }
   Future<Response> getData(String uri, {Map<String, String>? headers}) async {
     try {
-      print("headers : ${headers}");
-      print("_mainHeader : ${_mainHeader}");
-      print('Hello From try Get data ApiCleint');
-      print(
-          'sharedPreferences Token Get String =>${sharedPreferences.getString("token")!}');
-      print('AppConstance Token  =>${sharedPreferences.getString("token")!}');
+      // print("headers : ${headers}");
+      // print("_mainHeader : ${_mainHeader}");
+      // print('Hello From try Get data ApiCleint');
+      // print(
+      //     'sharedPreferences Token Get String =>${sharedPreferences.getString("token")!}');
+      // print('AppConstance Token  =>${sharedPreferences.getString("token")!}');
       Response response = await get(uri, headers: headers ?? _mainHeader);
-      print("response.statusCode in getData=>> ${response.statusCode}");
+      // print("response.statusCode in getData=>> ${response.statusCode}");
       return response;
     } catch (e) {
       print('Hello From catch Get data ApiCleint');
@@ -49,10 +49,10 @@ class ApiClient extends GetConnect implements GetxService {
   }
 
   // put the new token in header
-  void updateHeader(String newToken) async {
+  void updateHeader(String token) async {
     _mainHeader = {
       'Content-type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer$newToken'
+      'Authorization': 'Bearer $token'
     };
     print("updated Headers");
   }
