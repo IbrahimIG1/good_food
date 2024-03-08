@@ -41,10 +41,11 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   shared_preferences: ^2.0.15
   intl: ^0.18.1
-  # google_maps_flutter: 
-  # geocoding: ^2.2.0
-  # geolocator: ^11.0.0
+  google_maps_flutter: 
+  geocoding: ^2.2.0
+  geolocator: ^11.0.0
   dio: ^4.0.6
+  # permission_handler: 
 
 
 dev_dependencies:

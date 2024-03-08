@@ -2,6 +2,9 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/base/no_data_page.dart';
 import 'package:food_delivery_app/data/controller/auth_controller.dart';
+import 'package:food_delivery_app/data/controller/location_controller.dart';
+import 'package:food_delivery_app/data/controller/user_controller.dart';
+import 'package:food_delivery_app/pages/adress/add_adress_page.dart';
 import 'package:food_delivery_app/pages/auth/sign_in.dart';
 import 'package:food_delivery_app/pages/home/main_food_page.dart';
 import 'package:food_delivery_app/shared_packages/navigators.dart';
@@ -189,9 +192,13 @@ class CartPageIcon extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            if (AppConstants.TOKEN.isNotEmpty) {
-                              print('TOKEN IS NOT EMPTY');
-                              // print(AppConstants.TOKEN);
+                            if (Get.find<AuthController>().userLoggedIn()) {
+                              if (Get.find<LocationController>()
+                                  .adressList
+                                  .isEmpty) {
+                                navigateTo(context, AddAdressPage());
+                              }
+
                               navCartController.addToHistory();
                             } else {
                               print('TOKEN IS EMPTY');

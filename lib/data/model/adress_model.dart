@@ -5,7 +5,7 @@ class AdressModel {
   late String _contactPersonName;
   late String _contactPersonNumber;
   late String _latitude;
-  late String _logitude;
+  late String _longitude;
 
   AdressModel(
       {id,
@@ -14,14 +14,14 @@ class AdressModel {
       contactPersonName,
       contactPersonNumber,
       latitude,
-      logitude}) {
+      longitude}) {
     _id = id;
     _adressType = adressType;
     _contactPersonName = contactPersonName;
     _contactPersonNumber = contactPersonNumber;
     _adress = adress;
     _latitude = latitude;
-    _logitude = logitude;
+    _longitude = longitude;
   }
 
   // int get id => _id;
@@ -30,7 +30,7 @@ class AdressModel {
   String? get contactPersonName => _contactPersonName;
   String? get contactPersonNumber => _contactPersonNumber;
   String get latitude => _latitude;
-  String get lagitude => _logitude;
+  String get lagitude => _longitude;
 
   AdressModel.fromJson(Map<String, dynamic> json) {
     _id = json['id'];
@@ -39,6 +39,6 @@ class AdressModel {
     _contactPersonName = json['contact_person_name'] ?? "";
     _contactPersonNumber = json['contact_person_number'] ?? "";
     _latitude = json['latitude'];
-    _logitude = json['logitude'];
+    _longitude = json['logitude'];
   }
 }
